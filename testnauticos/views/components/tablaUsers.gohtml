@@ -1,0 +1,269 @@
+ {{define "headTablaUsers"}}
+ <!-- DataTables -->
+  <link rel="stylesheet" href="/resources/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/resources/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="/resources/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- select2 -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{{end}}
+{{define "tablaUsers"}}
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Usuarios</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Usuarios</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">              
+            <div class="card">
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="tableUsers" class="table table-bordered table-striped">
+                <!-- MODAL CREAR USUARIO -->
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick=openRegisterUser()><i class="fas fa-user-plus"></i> Crear usuario</button>
+                  <div class="modal fade" id="exampleModal" role="dialog">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header" style="background:#3c8dbc; color:white">
+                          <h5 class="modal-title">Registrar usuario</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times</button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="form" method="post" onsubmit="saveUser(); return false">
+                            <div class="form-group">
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon1"><i class="far fa-user"></i></span>
+                                </div>
+                                <input type="text" name="name" id="name" class="form-control" placeholder="Nombre" required>
+                                <span id="name-error" class="error invalid-feedback">Please enter a valid name</span>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" name="user" id="user" class="form-control" placeholder="Usuario" required>
+                                <span id="user-error" class="error invalid-feedback">Please enter a valid username</span>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <input type="text" name="email" id="email" class="form-control" placeholder="Correo electrónico" disabled required>
+                                <span id="email-error" class="error invalid-feedback">Please enter a valid email address</span>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input type="password" name="psswd" id="psswd" class="form-control" placeholder="Contraseña" maxlength="8" required>
+                                <span id="psswd-error" class="error invalid-feedback">Please enter a valid password</span>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input type="password" name="psswd2" id="psswd2" class="form-control" placeholder="Repetir contraseña" maxlength="8" required>
+                                <span id="psswd2-error" class="error invalid-feedback">Please enter a valid password2</span>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-phone"></i></span>
+                                </div>
+                                <input type="tel" name="phone" id="phone" class="form-control" placeholder="Teléfono" maxlength="9" required>
+                                <span id="phone-error" class="error invalid-feedback">Please enter a valid phone</span>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="far fa-check-square"></i></span>
+                              </div>
+                              <div class="select2-green">
+                                <select name="courses" class="js-example-basic-multiple" multiple="multiple" data-placeholder="Seleccione curso" data-dropdown-css-class="select2-green" style="width: 100%;" required>
+                                  <option value="PNB">PNB</option>
+                                  <option value="PNB-Video">PNB-Video</option>
+                                  <option value="PER">PER</option>
+                                  <option value="PER-Video">PER-Video</option>
+                                  <option value="PY">PY</option>
+                                  <option value="CY">CY</option>
+                                </select>
+                              </div>
+                            </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                              <button id="guardarUsuario" type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- MODAL CREAR USUARIO END -->
+                  <thead>
+                  <tr>
+                      <th style="width: 1%">
+                          ID
+                      </th>
+                      <th style="width: 18%">
+                          Nombre
+                      </th>
+                      <th style="width: 15%">
+                          Usuario
+                      </th>
+                      <th>
+                          Correo electrónico
+                      </th>
+                      <th style="width: 10%">
+                          Grupos
+                      </th>
+                      <th style="width: 16%" class="text-center">
+                          Estado
+                      </th>
+                      <th style="width: 15%">
+                      </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {{range .Users}}
+                  <tr>
+                      <td>
+                          {{.Id}}
+                      </td>
+                      <td>
+                          <a>
+                              {{.Name}}
+                          </a>
+                          <br/>
+                          <small>
+                              Registrado: {{.Created_at}}
+                          </small>
+                      </td>
+                      <td>
+                          <a>
+                             {{.Username}}
+                          </a>
+                      </td>
+                      <td class="project_progress">
+                          <a>
+                              {{.Email}}
+                          </a>
+                      </td>
+                      <td>
+                        {{range .Courses}}
+                          <a>
+                              {{.}}
+                          </a>
+                          <br>
+                        {{end}}
+                      </td>
+                      <td class="project-state">
+                          {{if .Status}}
+                          <span id="activate{{.Id}}" type="submit" onclick='activate({{.Id}})' class="badge badge-success">Activado</span>
+                          {{else}}
+                          <span id="activate{{.Id}}" type="submit" onclick="activate({{.Id}})" class="badge badge-danger">Desactivado</span>
+                          {{end}}
+                          <br/>
+                          <small>
+                              Ult.visita: {{.Last_visited}}
+                          </small>
+                      </td>
+                      <td class="project-actions text-right">
+                          <a class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal" onclick="openEditUser({{.Id}})">
+                              <i class="fas fa-pencil-alt">
+                              </i>
+                              Editar
+                          </a>
+                          <a class="btn btn-danger btn-sm" onclick="deleteUser({{.Id}})">
+                              <i class="fas fa-trash">
+                              </i>
+                              Borrar
+                          </a>
+                      </td>
+                  </tr>
+                  {{end}}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+</div>
+<!-- ./wrapper -->
+{{end}}
+{{define "scriptsTablaUsers"}}
+<!-- Sweet alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+<script src="/resources/js/adminUsers.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="/resources/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/resources/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/resources/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/resources/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/resources/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/resources/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/resources/plugins/jszip/jszip.min.js"></script>
+<script src="/resources/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/resources/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/resources/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/resources/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/resources/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#tableUsers").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+<script> $(document).ready(function() {$('.js-example-basic-multiple').select2();});</script>
+{{end}}
